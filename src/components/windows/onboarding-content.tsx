@@ -1,44 +1,31 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
 import { useWindowManager } from '@/lib/stores/window-manager';
-import { SplineCard, type SplineCardHandle } from '@/components/booster/spline-card';
-import { cardToSplineContent } from '@/components/booster/card-reveal';
-import type { CardV2 } from '@/types/cards';
+
+const STEPS = [
+  {
+    icon: '⚡',
+    title: 'HOLD',
+    desc: 'Hold $TRENCHGRAILS tokens to unlock free mints',
+    color: '#d4a830',
+  },
+  {
+    icon: '📦',
+    title: 'COLLECT',
+    desc: 'Open booster packs. Each pack = 3 NFT cards',
+    color: '#3b82f6',
+  },
+  {
+    icon: '⚔️',
+    title: 'BATTLE',
+    desc: 'Build your deck. Climb the leaderboard',
+    color: '#ef4444',
+  },
+];
 
 export function OnboardingContent() {
   const openWindow = useWindowManager((s) => s.openWindow);
   const closeWindow = useWindowManager((s) => s.closeWindow);
-  const [randomCard, setRandomCard] = useState<CardV2 | null>(null);
-  const [allCards, setAllCards] = useState<CardV2[]>([]);
-  const cardRef = useRef<SplineCardHandle>(null);
-
-  useEffect(() => {
-    fetch('/api/cards')
-      .then(r => r.json())
-      .then((cards: CardV2[]) => {
-        const withArt = cards?.filter(c => c.raw_art_path);
-        if (withArt?.length) {
-          setAllCards(withArt);
-          setRandomCard(withArt[Math.floor(Math.random() * withArt.length)]);
-        }
-      })
-      .catch(() => {});
-  }, []);
-
-  const shuffleCard = () => {
-    if (allCards.length < 2) return;
-    let next: CardV2;
-    do {
-      next = allCards[Math.floor(Math.random() * allCards.length)];
-    } while (next.id === randomCard?.id);
-    setRandomCard(next);
-  };
-
-  const cardContent = useMemo(
-    () => randomCard ? cardToSplineContent(randomCard as any) : undefined,
-    [randomCard],
-  );
 
   const goToShop = () => {
     closeWindow('onboarding');
@@ -46,99 +33,190 @@ export function OnboardingContent() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row gap-6">
-      {/* Left panel — 3D card + random button */}
-      <div className="shrink-0 flex flex-col items-center" style={{ width: 240 }}>
-        <div
-          className="w-full rounded-sm overflow-hidden flex items-center justify-center"
-          style={{ minHeight: 340 }}
+    <div
+      style={{
+        background: 'linear-gradient(180deg, #0a0a12 0%, #141428 100%)',
+        margin: -12,
+        padding: '28px 24px 20px',
+        minHeight: 320,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: 20,
+      }}
+    >
+      {/* Title banner */}
+      <div
+        style={{
+          textAlign: 'center',
+          animation: 'mtg-fade-in 0.4s ease-out',
+        }}
+      >
+        <h1
+          style={{
+            margin: 0,
+            fontSize: 22,
+            fontWeight: 900,
+            letterSpacing: 5,
+            color: '#d4a830',
+            textShadow: '0 0 12px rgba(212,168,48,0.4), 0 2px 4px rgba(0,0,0,0.6)',
+            fontFamily: 'Georgia, "Times New Roman", serif',
+          }}
         >
-          {cardContent ? (
-            <SplineCard
-              key={randomCard?.id}
-              ref={cardRef}
-              cardContent={cardContent}
-              style={{ width: '100%', height: 340 }}
-              onLoad={() => {
-                setTimeout(() => cardRef.current?.triggerFlip(), 600);
-              }}
-            />
-          ) : (
+          TRENCH GRAILS
+        </h1>
+        <p
+          style={{
+            margin: '6px 0 0',
+            fontSize: 10,
+            color: '#7a7a8e',
+            fontStyle: 'italic',
+            letterSpacing: 1,
+          }}
+        >
+          Collectible Card Game on Solana
+        </p>
+        {/* Gold divider */}
+        <div
+          style={{
+            width: 120,
+            height: 1,
+            background: 'linear-gradient(90deg, transparent, #c4a032, transparent)',
+            margin: '14px auto 0',
+          }}
+        />
+      </div>
+
+      {/* Step cards */}
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(3, 1fr)',
+          gap: 12,
+          width: '100%',
+          maxWidth: 460,
+        }}
+      >
+        {STEPS.map((step, i) => (
+          <div
+            key={step.title}
+            className="mtg-step-card"
+            style={{
+              border: `1px solid ${step.color}33`,
+              background: `linear-gradient(180deg, ${step.color}08 0%, ${step.color}03 100%)`,
+              borderRadius: 2,
+              padding: '16px 10px 14px',
+              textAlign: 'center',
+              transition: 'box-shadow 0.2s, border-color 0.2s',
+              animation: `mtg-fade-in 0.4s ease-out ${0.15 + i * 0.15}s both`,
+              cursor: 'default',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.boxShadow = `0 0 12px ${step.color}22, inset 0 0 20px ${step.color}08`;
+              e.currentTarget.style.borderColor = `${step.color}66`;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.boxShadow = 'none';
+              e.currentTarget.style.borderColor = `${step.color}33`;
+            }}
+          >
+            <div style={{ fontSize: 24, marginBottom: 8 }}>{step.icon}</div>
             <div
-              className="w-full h-full flex flex-col items-center justify-center text-center p-5"
               style={{
-                background: 'linear-gradient(180deg, #1a5aaf 0%, #2b6cc4 30%, #3a80d8 100%)',
-                color: 'white',
-                minHeight: 280,
+                fontSize: 12,
+                fontWeight: 800,
+                color: step.color,
+                letterSpacing: 2,
+                marginBottom: 6,
+                textShadow: `0 0 8px ${step.color}33`,
               }}
             >
-              <div className="text-5xl mb-3">🎴</div>
-              <div className="text-lg font-bold" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.3)' }}>
-                TRENCH
-              </div>
-              <div className="text-2xl font-black tracking-wider" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.3)' }}>
-                GRAILS
-              </div>
-              <div className="text-[10px] mt-2 opacity-80">NFT Card Game on Solana</div>
+              {step.title}
             </div>
-          )}
-        </div>
-        {allCards.length > 1 && (
-          <button
-            onClick={shuffleCard}
-            className="xp-button px-3 py-[3px] text-[11px] mt-2 w-full"
-          >
-            🔀 Random
-          </button>
-        )}
-      </div>
-
-      {/* Right panel */}
-      <div className="flex-1 space-y-5">
-        <div>
-          <h2 className="text-sm font-bold text-[#003399] mb-1">Welcome to Trench Grails</h2>
-          <p className="text-[11px] text-[#444] leading-relaxed">
-            NFT card game on Solana. Hold, collect, battle.
-          </p>
-        </div>
-
-        {/* How it works */}
-        <fieldset className="xp-groupbox">
-          <legend className="xp-groupbox-legend">How It Works</legend>
-          <div className="space-y-3">
-            {[
-              { step: '1.', icon: '💎', title: 'Hold SOL', desc: 'Get access to free booster packs' },
-              { step: '2.', icon: '📦', title: 'Open Boosters', desc: '3 NFT cards in each pack, free' },
-              { step: '3.', icon: '⚔️', title: 'Battle', desc: 'Build your deck and fight' },
-            ].map(({ step, icon, title, desc }) => (
-              <div key={step} className="flex items-start gap-2 text-[11px]">
-                <span className="text-[#003399] font-bold w-4 shrink-0">{step}</span>
-                <span className="text-base shrink-0">{icon}</span>
-                <div>
-                  <span className="font-bold text-[#222]">{title}</span>
-                  <span className="text-[#666]"> — {desc}</span>
-                </div>
-              </div>
-            ))}
+            <div
+              style={{
+                fontSize: 10,
+                color: '#9a9ab0',
+                lineHeight: 1.4,
+              }}
+            >
+              {step.desc}
+            </div>
           </div>
-        </fieldset>
-
-        {/* CTA */}
-        <div className="flex items-center gap-2 pt-2">
-          <button
-            onClick={goToShop}
-            className="xp-button xp-button-primary px-6 py-[5px] text-[12px] font-bold"
-          >
-            🎴 Free Mint
-          </button>
-          <button
-            onClick={goToShop}
-            className="xp-button px-4 py-[5px] text-[12px] text-[#666]"
-          >
-            Skip
-          </button>
-        </div>
+        ))}
       </div>
+
+      {/* CTA */}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 10,
+          marginTop: 4,
+          animation: 'mtg-fade-in 0.4s ease-out 0.7s both',
+        }}
+      >
+        <button
+          onClick={goToShop}
+          className="mtg-cta-button"
+          style={{
+            background: 'linear-gradient(180deg, #c4a032 0%, #8a6e1a 100%)',
+            color: '#fff',
+            border: '1px solid #d4a830',
+            borderRadius: 2,
+            padding: '7px 22px',
+            fontSize: 12,
+            fontWeight: 700,
+            letterSpacing: 1,
+            cursor: 'pointer',
+            textShadow: '0 1px 2px rgba(0,0,0,0.4)',
+            boxShadow: '0 0 8px rgba(212,168,48,0.2), inset 0 1px 0 rgba(255,255,255,0.15)',
+            transition: 'box-shadow 0.2s, transform 0.1s',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.boxShadow = '0 0 16px rgba(212,168,48,0.4), inset 0 1px 0 rgba(255,255,255,0.2)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.boxShadow = '0 0 8px rgba(212,168,48,0.2), inset 0 1px 0 rgba(255,255,255,0.15)';
+          }}
+          onMouseDown={(e) => {
+            e.currentTarget.style.transform = 'scale(0.97)';
+          }}
+          onMouseUp={(e) => {
+            e.currentTarget.style.transform = 'scale(1)';
+          }}
+        >
+          ⚔️ Enter the Arena
+        </button>
+        <button
+          onClick={() => closeWindow('onboarding')}
+          style={{
+            background: 'none',
+            border: 'none',
+            color: '#555568',
+            fontSize: 11,
+            cursor: 'pointer',
+            padding: '4px 8px',
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.color = '#8a8a9e'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.color = '#555568'; }}
+        >
+          Skip
+        </button>
+      </div>
+
+      {/* Keyframe animations */}
+      <style>{`
+        @keyframes mtg-fade-in {
+          from { opacity: 0; transform: translateY(8px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 500px) {
+          .mtg-step-card {
+            grid-column: span 3 !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }
