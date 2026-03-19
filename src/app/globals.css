@@ -1,0 +1,847 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.58 0.22 27);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.809 0.105 251.813);
+  --chart-2: oklch(0.623 0.214 259.815);
+  --chart-3: oklch(0.546 0.245 262.881);
+  --chart-4: oklch(0.488 0.243 264.376);
+  --chart-5: oklch(0.424 0.199 265.638);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.87 0.00 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.371 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.809 0.105 251.813);
+  --chart-2: oklch(0.623 0.214 259.815);
+  --chart-3: oklch(0.546 0.245 262.881);
+  --chart-4: oklch(0.488 0.243 264.376);
+  --chart-5: oklch(0.424 0.199 265.638);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   Windows XP Luna Theme
+   ═══════════════════════════════════════════════ */
+
+/* XP Desktop background — gradient fallback while Spline 3D loads */
+.xp-desktop {
+  background: transparent;
+  min-height: 100vh;
+  font-family: 'Tahoma', 'Segoe UI', 'Arial', sans-serif;
+  font-size: 11px;
+  color: #222;
+}
+
+/* ── XP Window ── */
+.xp-window {
+  background: #ece9d8;
+  border: 1px solid #0054e3;
+  border-radius: 8px 8px 0 0;
+  box-shadow:
+    2px 2px 10px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.xp-title-bar {
+  background: linear-gradient(180deg, #0997ff 0%, #0053ee 8%, #0050ee 20%, #0855dd 60%, #0348c8 90%, #084ece 100%);
+  padding: 4px 5px 4px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 26px;
+  border-radius: 7px 7px 0 0;
+  user-select: none;
+}
+
+.xp-title-text {
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Window control buttons */
+.xp-btn-minimize,
+.xp-btn-maximize,
+.xp-btn-close {
+  width: 21px;
+  height: 21px;
+  border: none;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+  color: white;
+  font-size: 10px;
+  padding: 0;
+}
+
+.xp-btn-minimize {
+  background: linear-gradient(180deg, #3c8df3 0%, #2264d5 50%, #1a56c2 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.4), 0 1px 0 rgba(0,0,0,0.2);
+}
+.xp-btn-minimize:hover { background: linear-gradient(180deg, #5aa0f7 0%, #3a7ee0 50%, #2a6ad0 100%); }
+
+.xp-btn-maximize {
+  background: linear-gradient(180deg, #3c8df3 0%, #2264d5 50%, #1a56c2 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.4), 0 1px 0 rgba(0,0,0,0.2);
+}
+.xp-btn-maximize:hover { background: linear-gradient(180deg, #5aa0f7 0%, #3a7ee0 50%, #2a6ad0 100%); }
+
+.xp-btn-close {
+  background: linear-gradient(180deg, #e8775e 0%, #d1503a 50%, #c0402a 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.35), 0 1px 0 rgba(0,0,0,0.2);
+}
+.xp-btn-close:hover { background: linear-gradient(180deg, #f09080 0%, #e06050 50%, #d04535 100%); }
+
+/* Window content area */
+.xp-window-content {
+  background: #fff;
+  margin: 0 3px 3px 3px;
+  padding: 12px;
+  border: 1px solid #919b9c;
+}
+
+.xp-window-content-raw {
+  background: #fff;
+  margin: 0 3px 3px 3px;
+  border: 1px solid #919b9c;
+}
+
+/* Toolbar */
+.xp-toolbar {
+  background: linear-gradient(180deg, #f2f0eb 0%, #ece9d8 100%);
+  border-bottom: 1px solid #c3c0b6;
+  padding: 2px 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Status bar */
+.xp-status-bar {
+  background: linear-gradient(180deg, #ece9d8 0%, #e0ddd0 100%);
+  border-top: 1px solid #c3c0b6;
+  padding: 2px 6px;
+  font-size: 11px;
+  color: #444;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 22px;
+}
+
+.xp-status-bar > div {
+  border-right: 1px solid #c3c0b6;
+  padding-right: 8px;
+}
+.xp-status-bar > div:last-child {
+  border-right: none;
+}
+
+/* ── XP Button ── */
+.xp-button {
+  background: linear-gradient(180deg, #fff 0%, #ecebe5 30%, #d8d0c4 100%);
+  border: 1px solid #003c74;
+  border-radius: 3px;
+  color: #222;
+  cursor: default;
+  font-family: 'Tahoma', 'Segoe UI', sans-serif;
+  font-size: 11px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.7),
+    0 1px 1px rgba(0,0,0,0.15);
+  transition: none;
+}
+
+.xp-button:hover {
+  background: linear-gradient(180deg, #fff 0%, #e5e3db 30%, #ddd5c8 100%);
+  border-color: #0055aa;
+}
+
+.xp-button:active {
+  background: linear-gradient(180deg, #d8d0c4 0%, #c4bbb0 30%, #b8b0a0 100%);
+  box-shadow: inset 1px 1px 2px rgba(0,0,0,0.2);
+}
+
+.xp-button:disabled {
+  background: linear-gradient(180deg, #f0f0f0 0%, #e8e8e8 100%);
+  border-color: #adb2b5;
+  color: #a0a0a0;
+  cursor: default;
+}
+
+.xp-button-primary {
+  background: linear-gradient(180deg, #fff 0%, #d6ebff 30%, #a8d4ff 100%);
+  border: 2px solid #003c74;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.8),
+    0 0 3px rgba(0,100,200,0.3);
+}
+
+.xp-button-primary:hover {
+  background: linear-gradient(180deg, #fff 0%, #c8e0ff 30%, #90c8ff 100%);
+}
+
+/* ── XP GroupBox ── */
+.xp-groupbox {
+  border: 1px solid #919b9c;
+  border-radius: 5px;
+  padding: 12px 10px 10px;
+  margin: 0;
+  background: transparent;
+}
+
+.xp-groupbox-legend {
+  font-size: 11px;
+  color: #003399;
+  font-weight: normal;
+  padding: 0 4px;
+}
+
+/* ── XP Progress Bar ── */
+.xp-progress {
+  height: 16px;
+  background: #fff;
+  border: 1px solid #919b9c;
+  border-radius: 0;
+  overflow: hidden;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.xp-progress-bar {
+  height: 100%;
+  background: repeating-linear-gradient(
+    90deg,
+    #37b34a 0px,
+    #37b34a 8px,
+    #2ca03f 8px,
+    #2ca03f 10px
+  );
+  transition: width 0.3s;
+  border-radius: 0;
+}
+
+/* ── XP Select / Input ── */
+.xp-select {
+  background: #fff;
+  border: 1px solid #7f9db9;
+  padding: 2px 20px 2px 4px;
+  font-size: 11px;
+  font-family: 'Tahoma', sans-serif;
+  color: #222;
+  border-radius: 0;
+  appearance: auto;
+  cursor: default;
+  height: 22px;
+}
+
+.xp-select:focus {
+  outline: 1px solid #0054e3;
+}
+
+.xp-input {
+  background: #fff;
+  border: 1px solid #7f9db9;
+  padding: 2px 4px;
+  font-size: 11px;
+  font-family: 'Tahoma', sans-serif;
+  color: #222;
+  border-radius: 0;
+  height: 22px;
+}
+
+.xp-input:focus {
+  outline: 1px solid #0054e3;
+}
+
+/* ── XP ListView (table/grid) ── */
+.xp-listview {
+  background: #fff;
+  border: 1px solid #7f9db9;
+  font-size: 11px;
+}
+
+.xp-listview-header {
+  background: linear-gradient(180deg, #fff 0%, #e8e6df 100%);
+  border-bottom: 1px solid #c3c0b6;
+  font-weight: bold;
+  padding: 2px 6px;
+  font-size: 11px;
+  color: #222;
+}
+
+.xp-listview-row {
+  padding: 2px 6px;
+  border-bottom: 1px solid #f0ede5;
+}
+
+.xp-listview-row:hover {
+  background: #316ac5;
+  color: #fff;
+}
+
+.xp-listview-row-selected {
+  background: #316ac5;
+  color: #fff;
+}
+
+/* ── XP Taskbar ── */
+.xp-taskbar {
+  background: linear-gradient(180deg, #1f55d1 0%, #3068e3 4%, #2e64e0 50%, #245edb 50%, #1e54ce 96%, #1648b8 100%);
+  border-top: 2px solid #0c3dab;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  padding: 0 4px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  pointer-events: auto;
+}
+
+.xp-start-button {
+  background: linear-gradient(180deg, #3c9d2b 0%, #2c8d1b 30%, #1e7d0b 70%, #317d29 100%);
+  border: none;
+  border-radius: 0 8px 8px 0;
+  padding: 2px 10px 2px 8px;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 30px;
+  cursor: default;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.3);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 1px 0 rgba(0,0,0,0.3);
+}
+
+.xp-start-button:hover {
+  background: linear-gradient(180deg, #4aaf39 0%, #3c9f2b 30%, #2e8f1b 70%, #3f8d31 100%);
+}
+
+.xp-taskbar-buttons {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: 1;
+  padding: 0 4px;
+  overflow: hidden;
+}
+
+.xp-taskbar-btn {
+  background: linear-gradient(180deg, #3a78e8 0%, #2060d8 50%, #1a54c8 100%);
+  border: 1px solid #1845a0;
+  border-radius: 2px;
+  padding: 2px 8px;
+  color: white;
+  font-size: 11px;
+  cursor: default;
+  max-width: 160px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.3);
+}
+
+.xp-taskbar-btn-active {
+  background: linear-gradient(180deg, #e0dfd9 0%, #d5d4ce 50%, #c8c7c1 100%);
+  border-color: #919b9c;
+  color: #222;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
+  text-shadow: none;
+}
+
+.xp-tray {
+  background: linear-gradient(180deg, #0e8ce3 0%, #0b6dd2 50%, #0862c5 100%);
+  border-left: 2px solid #0854a8;
+  padding: 0 10px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: white;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.3);
+}
+
+/* ── Pink Wallet Button ── */
+.xp-wallet-btn {
+  background: linear-gradient(180deg, #ff6b9d 0%, #e84593 50%, #d63384 100%);
+  border: 1px solid #b02a6e;
+  border-radius: 2px;
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: default;
+  height: 22px;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.2);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 0 1px 0 rgba(0,0,0,0.2);
+}
+.xp-wallet-btn:hover {
+  background: linear-gradient(180deg, #ff85b1 0%, #f055a3 50%, #e04494 100%);
+}
+.xp-wallet-btn:active {
+  background: linear-gradient(180deg, #d63384 0%, #c22a76 50%, #b02a6e 100%);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
+}
+
+/* ── Token CA in tray ── */
+.xp-token-ca {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-family: monospace;
+  font-size: 10px;
+  color: rgba(255,255,255,0.85);
+  text-shadow: 0 1px 0 rgba(0,0,0,0.3);
+}
+.xp-token-ca-copy {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.7);
+  cursor: pointer;
+  padding: 1px 2px;
+  font-size: 11px;
+  line-height: 1;
+}
+.xp-token-ca-copy:hover {
+  color: #fff;
+}
+
+/* ── Tray external links ── */
+.xp-tray-link {
+  display: flex;
+  align-items: center;
+  opacity: 0.85;
+  transition: opacity 0.1s;
+}
+.xp-tray-link:hover {
+  opacity: 1;
+}
+
+/* ── XP Top Bar (simplified title bar) ── */
+.xp-top-bar {
+  background: linear-gradient(180deg, #0997ff 0%, #0053ee 8%, #0050ee 20%, #0855dd 60%, #0348c8 90%, #084ece 100%);
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 32px;
+  user-select: none;
+}
+
+/* ── XP Desktop Icons ── */
+.xp-desktop-icons {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 0;
+  pointer-events: auto;
+}
+
+.xp-desktop-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 6px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background: transparent;
+  cursor: pointer;
+  width: 72px;
+  transition: background 0.1s;
+}
+
+.xp-desktop-icon:hover {
+  background: rgba(80, 130, 200, 0.25);
+  border-color: rgba(80, 130, 200, 0.5);
+}
+
+.xp-desktop-icon:focus {
+  background: rgba(80, 130, 200, 0.35);
+  border-color: rgba(80, 130, 200, 0.7);
+  outline: none;
+}
+
+.xp-desktop-icon img {
+  width: 48px;
+  height: 48px;
+  filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.5));
+}
+
+.xp-desktop-icon-label {
+  color: #fff;
+  font-size: 11px;
+  font-family: Tahoma, sans-serif;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9);
+  text-align: center;
+  line-height: 1.2;
+  word-break: break-word;
+  max-width: 68px;
+}
+
+@media (max-width: 767px) {
+  .xp-desktop-icons {
+    top: 8px;
+    left: 8px;
+    gap: 2px;
+  }
+  .xp-desktop-icon {
+    width: 64px;
+  }
+  .xp-desktop-icon img {
+    width: 40px;
+    height: 40px;
+  }
+  .xp-desktop-icon-label {
+    font-size: 10px;
+  }
+}
+
+/* ── XP Managed Windows ── */
+.xp-window-area {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.xp-managed-window {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  pointer-events: auto;
+  width: min(85vw, 900px);
+  max-height: min(80vh, 700px);
+}
+
+.xp-managed-window-runner {
+  width: 300px !important;
+  max-height: none;
+}
+
+.xp-managed-window-player {
+  width: 440px !important;
+  max-height: none;
+}
+
+.xp-managed-window-faq {
+  width: 520px !important;
+  max-height: 80vh;
+}
+
+.xp-managed-window-mcp {
+  width: 520px !important;
+  max-height: 80vh;
+}
+
+@media (max-width: 767px) {
+  .xp-managed-window {
+    /* Mobile: full screen, override inline left/top */
+    inset: 0 !important;
+    width: auto !important;
+    height: auto !important;
+  }
+}
+
+.xp-title-bar-inactive {
+  background: linear-gradient(180deg, #7996c8 0%, #6080b8 8%, #5c7cb5 20%, #5576b0 60%, #4e6fa8 90%, #5575ad 100%);
+}
+
+/* ── XP Start Menu ── */
+.xp-start-menu {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  z-index: 99;
+  width: 240px;
+  background: #fff;
+  border: 2px solid #0054e3;
+  border-radius: 8px 8px 0 0;
+  box-shadow: 3px 3px 12px rgba(0,0,0,0.4);
+  overflow: hidden;
+  margin-bottom: 2px;
+}
+
+.xp-start-menu-header {
+  background: linear-gradient(180deg, #0997ff 0%, #0053ee 50%, #084ece 100%);
+  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: white;
+  font-size: 13px;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
+}
+
+.xp-start-menu-items {
+  padding: 4px 0;
+}
+
+.xp-start-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 6px 14px;
+  font-size: 12px;
+  color: #222;
+  cursor: default;
+  border: none;
+  background: none;
+  text-align: left;
+}
+
+.xp-start-menu-item:hover {
+  background: #316ac5;
+  color: white;
+}
+
+/* Minimized taskbar button style */
+.xp-taskbar-btn-minimized {
+  opacity: 0.7;
+}
+
+/* ═══════════════════════════════════════════════
+   Booster Pack Animations
+   ═══════════════════════════════════════════════ */
+
+@keyframes pack-shake {
+  0%, 100% { transform: translateX(0); }
+  10% { transform: translateX(-4px); }
+  20% { transform: translateX(4px); }
+  30% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  50% { transform: translateX(-3px); }
+  60% { transform: translateX(3px); }
+  70% { transform: translateX(-2px); }
+  80% { transform: translateX(2px); }
+}
+
+@keyframes flap-tear {
+  0% { transform: rotateX(0deg); opacity: 1; }
+  100% { transform: rotateX(-160deg) translateY(-30px); opacity: 0; }
+}
+
+@keyframes light-burst {
+  0% { opacity: 0; transform: translateX(-50%) scaleY(0); }
+  50% { opacity: 1; transform: translateX(-50%) scaleY(1.5); }
+  100% { opacity: 0.6; transform: translateX(-50%) scaleY(1); }
+}
+
+@keyframes tear-glow {
+  0%, 100% { opacity: 1; transform: scaleY(1); }
+  50% { opacity: 0.5; transform: scaleY(3); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes popup-in {
+  0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+  100% { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+@keyframes fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes scale-in {
+  0% { opacity: 0; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.animate-pack-shake {
+  animation: pack-shake 0.3s linear infinite;
+}
+
+.animate-flap-tear {
+  animation: flap-tear 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+.animate-light-burst {
+  animation: light-burst 0.6s ease-out forwards;
+}
+
+.animate-tear-glow {
+  animation: tear-glow 0.2s linear infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-popup-in {
+  animation: popup-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* ── XP-style link ── */
+.xp-link {
+  color: #0066cc;
+  font-size: 11px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.xp-link:hover {
+  color: #0044aa;
+}
+
+/* ── XP Info bar ── */
+.xp-infobar {
+  background: linear-gradient(180deg, #f9f3e8 0%, #eee8d8 100%);
+  border: 1px solid #d8ccb0;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: #333;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+/* ── XP Tooltip ── */
+.xp-tooltip {
+  background: #ffffe1;
+  border: 1px solid #000;
+  padding: 2px 6px;
+  font-size: 11px;
+  color: #222;
+  box-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+}

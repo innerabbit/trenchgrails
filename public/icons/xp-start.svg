@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <!-- Windows XP style logo (4-color flag) -->
+  <!-- Red -->
+  <rect x="1" y="1" width="6" height="6" rx="1" fill="#ef4444" opacity="0.95"/>
+  <!-- Green -->
+  <rect x="9" y="1" width="6" height="6" rx="1" fill="#22c55e" opacity="0.95"/>
+  <!-- Blue -->
+  <rect x="1" y="9" width="6" height="6" rx="1" fill="#3b82f6" opacity="0.95"/>
+  <!-- Yellow -->
+  <rect x="9" y="9" width="6" height="6" rx="1" fill="#facc15" opacity="0.95"/>
+  <!-- Wavy distortion hint (light overlay) -->
+  <path d="M1,4 Q4,3 8,5 Q12,7 15,4" fill="none" stroke="#fff4" stroke-width="1"/>
+  <path d="M1,11 Q4,10 8,12 Q12,14 15,11" fill="none" stroke="#fff4" stroke-width="1"/>
+</svg>

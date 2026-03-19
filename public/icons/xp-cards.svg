@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <!-- Windows XP style playing cards / card deck icon -->
+  <defs>
+    <linearGradient id="card1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fff"/>
+      <stop offset="100%" stop-color="#e8e8e8"/>
+    </linearGradient>
+    <linearGradient id="card2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4a90d9"/>
+      <stop offset="100%" stop-color="#2563a0"/>
+    </linearGradient>
+  </defs>
+  <!-- Back card (blue) -->
+  <rect x="1" y="1" width="9" height="12" rx="1" fill="url(#card2)" stroke="#1a4a7a" stroke-width="0.5"/>
+  <rect x="2" y="2" width="7" height="10" rx="0.5" fill="none" stroke="#6ab0f0" stroke-width="0.3" stroke-dasharray="1 0.5"/>
+  <!-- Front card (white) -->
+  <rect x="5" y="3" width="9" height="12" rx="1" fill="url(#card1)" stroke="#888" stroke-width="0.5"/>
+  <!-- Diamond symbol -->
+  <polygon points="9.5,6 11,8.5 9.5,11 8,8.5" fill="#d22" stroke="#a00" stroke-width="0.3"/>
+</svg>

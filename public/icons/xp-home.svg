@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <!-- Windows XP style home/house icon -->
+  <defs>
+    <linearGradient id="roof" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#c44"/>
+      <stop offset="100%" stop-color="#911"/>
+    </linearGradient>
+    <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f5e6a0"/>
+      <stop offset="100%" stop-color="#d4c070"/>
+    </linearGradient>
+  </defs>
+  <!-- Roof -->
+  <polygon points="8,1 1,7 15,7" fill="url(#roof)" stroke="#600" stroke-width="0.5"/>
+  <!-- Chimney -->
+  <rect x="11" y="2" width="2" height="4" fill="#955" stroke="#600" stroke-width="0.3"/>
+  <!-- Wall -->
+  <rect x="3" y="7" width="10" height="7" fill="url(#wall)" stroke="#996" stroke-width="0.5"/>
+  <!-- Door -->
+  <rect x="6" y="9" width="3" height="5" fill="#654" rx="0.5" stroke="#432" stroke-width="0.4"/>
+  <!-- Door knob -->
+  <circle cx="8.3" cy="12" r="0.5" fill="#da2"/>
+  <!-- Window left -->
+  <rect x="4" y="8.5" width="1.5" height="1.5" fill="#8cf" stroke="#456" stroke-width="0.3"/>
+  <!-- Window right -->
+  <rect x="10.5" y="8.5" width="1.5" height="1.5" fill="#8cf" stroke="#456" stroke-width="0.3"/>
+</svg>
