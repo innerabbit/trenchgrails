@@ -19,7 +19,7 @@ const WINDOW_DEFS: { id: WindowId; title: string; icon: string; x: number; y: nu
   { id: 'collection', title: 'Collection', icon: '/icons/xp-collection.svg', x: 280, y: 20 },
   { id: 'leaderboard', title: 'Leaderboard', icon: '/icons/xp-trophy.svg', x: 220, y: 90 },
   { id: 'generator', title: 'Card Generator', icon: '/icons/xp-cards.svg', x: 100, y: 40 },
-  { id: 'runner', title: 'Shape Runner', icon: '/icons/xp-cards.svg', x: 300, y: 150 },
+  { id: 'runner', title: 'Trench Runner', icon: '/icons/xp-cards.svg', x: 300, y: 150 },
   { id: 'player', title: 'Media Player', icon: '/icons/xp-cards.svg', x: 200, y: 80 },
   { id: 'faq', title: 'FAQ & Tokenomics', icon: '/icons/xp-cards.svg', x: 120, y: 50 },
   { id: 'mcp', title: 'MCP Agent Terminal', icon: '/icons/xp-cards.svg', x: 180, y: 70 },

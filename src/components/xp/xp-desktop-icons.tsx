@@ -14,7 +14,7 @@ const DESKTOP_ICONS: DesktopIcon[] = [
   { id: 'collection', label: 'Collection', icon: '/icons/xp-desktop-collection.png' },
   { id: 'leaderboard', label: 'Leaderboard', icon: '/icons/xp-desktop-leaderboard.png' },
   { id: 'generator', label: 'Card Generator', icon: '/icons/xp-desktop-generator.png' },
-  { id: 'runner', label: 'Shape Runner', icon: '/icons/xp-desktop-runner.png' },
+  { id: 'runner', label: 'Trench Runner', icon: '/icons/xp-desktop-runner.png' },
   { id: 'player', label: 'Media Player', icon: '/icons/xp-desktop-player.png' },
   { id: 'faq', label: 'FAQ', icon: '/icons/xp-desktop-faq.png' },
   { id: 'mcp', label: 'MCP Agent', icon: '/icons/xp-desktop-mcp.png' },

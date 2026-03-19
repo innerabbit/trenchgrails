@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
       );
       if (!grouping) continue;
 
-      // Extract card number from name "Shape Card #042" or metadata
+      // Extract card number from name "Trench Card #042" or metadata
       const name = asset.content?.metadata?.name || '';
       const match = name.match(/#(\d+)/);
       const cardNumber = match ? parseInt(match[1], 10) : null;

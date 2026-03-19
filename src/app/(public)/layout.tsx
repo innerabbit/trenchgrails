@@ -15,7 +15,7 @@ const ALL_WINDOWS: { id: WindowId; icon: string; label: string }[] = [
   { id: 'collection', icon: '/icons/xp-collection.svg', label: 'Collection' },
   { id: 'leaderboard', icon: '/icons/xp-trophy.svg', label: 'Leaderboard' },
   { id: 'generator', icon: '/icons/xp-cards.svg', label: 'Card Generator' },
-  { id: 'runner', icon: '/icons/xp-cards.svg', label: 'Shape Runner' },
+  { id: 'runner', icon: '/icons/xp-cards.svg', label: 'Trench Runner' },
   { id: 'player', icon: '/icons/xp-cards.svg', label: 'Media Player' },
   { id: 'faq', icon: '/icons/xp-cards.svg', label: 'FAQ' },
   { id: 'mcp', icon: '/icons/xp-cards.svg', label: 'MCP Agent' },

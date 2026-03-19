@@ -63,7 +63,7 @@ async function main() {
         leafOwner: testWallet,
         coreCollection: collection.publicKey,
         metadata: {
-          name: `Shape Card #${String(num).padStart(3, '0')}`,
+          name: `Trench Card #${String(num).padStart(3, '0')}`,
           uri: `https://trenchgrails.vercel.app/api/nft/metadata/${num}`,
           sellerFeeBasisPoints: 500,
           creators: [

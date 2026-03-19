@@ -68,7 +68,7 @@ async function mintBatch(
 
   for (const card of cards) {
     const metadata: MetadataArgsArgs = {
-      name: `Shape Card #${String(card.card_number).padStart(3, '0')}`,
+      name: `Trench Card #${String(card.card_number).padStart(3, '0')}`,
       symbol: 'TGRL',
       uri: `${METADATA_BASE_URL}/api/nft/metadata/${card.card_number}`,
       sellerFeeBasisPoints: 500,
@@ -131,7 +131,7 @@ async function mintIndividual(
 
   for (const card of cards) {
     const metadata: MetadataArgsArgs = {
-      name: `Shape Card #${String(card.card_number).padStart(3, '0')}`,
+      name: `Trench Card #${String(card.card_number).padStart(3, '0')}`,
       symbol: 'TGRL',
       uri: `${METADATA_BASE_URL}/api/nft/metadata/${card.card_number}`,
       sellerFeeBasisPoints: 500,

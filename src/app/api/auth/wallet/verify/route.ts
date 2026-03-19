@@ -79,7 +79,7 @@ export async function POST(request: Request) {
     await admin.from('auth_nonces').delete().eq('wallet_address', walletAddress);
 
     // 4. Create or get Supabase auth user
-    const email = `${walletAddress}@wallet.shapecards`;
+    const email = `${walletAddress}@wallet.trenchgrails`;
 
     // Try to create first (works for new users)
     const { data: created } = await admin.auth.admin.createUser({

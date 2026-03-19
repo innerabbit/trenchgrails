@@ -72,7 +72,7 @@ export function FaqContent() {
       <div style={{ padding: '4px 6px' }}>
         <Section title="🃏 What is Trench Grails?" defaultOpen>
           <p style={{ margin: 0 }}>
-            A collectible card game on Solana. Collect shape cards, build decks, climb the leaderboard and earn real rewards.
+            A collectible card game on Solana. Collect cards, build decks, climb the leaderboard and earn real rewards.
           </p>
         </Section>
 
@@ -96,7 +96,7 @@ export function FaqContent() {
 
         <Section title="🔷 How many cards are there?">
           <p style={{ margin: 0 }}>
-            125 unique cards. Different shapes, materials (Flat, 3D, Chrome, Gold) and mana colors.
+            125 unique cards. Different types, materials (Flat, 3D, Chrome, Gold) and mana colors.
           </p>
         </Section>
 
