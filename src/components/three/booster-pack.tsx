@@ -189,7 +189,7 @@ export function BoosterPack({ state, onClick, onTearComplete }: BoosterPackProps
             font="/fonts/inter-bold.woff2"
             letterSpacing={0.2}
           >
-            SHAPE
+            TRENCH
           </Text>
           <Text
             position={[0, 0.1, 0]}
@@ -200,7 +200,7 @@ export function BoosterPack({ state, onClick, onTearComplete }: BoosterPackProps
             font="/fonts/inter-bold.woff2"
             letterSpacing={0.2}
           >
-            CARDS
+            GRAILS
           </Text>
           <Text
             position={[0, -0.2, 0]}

@@ -9,7 +9,7 @@ import { updateCollection } from '@metaplex-foundation/mpl-core';
 import bs58 from 'bs58';
 
 const COLLECTION_ADDRESS = '6fmDmSKhyx7AJFZk1z3fpV2p4NRMiaiAMY9Z2fC5Vk6X';
-const NEW_URI = 'https://theshapegame.app/api/nft/collection-metadata';
+const NEW_URI = 'https://trenchgrails.vercel.app/api/nft/collection-metadata';
 const RPC_URL = 'https://api.mainnet-beta.solana.com';
 
 async function main() {
@@ -30,7 +30,7 @@ async function main() {
 
   const tx = await updateCollection(umi, {
     collection: publicKey(COLLECTION_ADDRESS),
-    name: 'The Shape Game',
+    name: 'Trench Grails',
     uri: NEW_URI,
   }).sendAndConfirm(umi);
 

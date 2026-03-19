@@ -1,5 +1,5 @@
 // ========================================
-// SHAPE_CARDS — Constants & Game Data
+// TRENCH_GRAILS — Constants & Game Data
 // ========================================
 
 import type {

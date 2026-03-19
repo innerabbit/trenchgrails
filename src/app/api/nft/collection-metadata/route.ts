@@ -7,12 +7,12 @@ import { NextResponse } from 'next/server';
  */
 export async function GET() {
   const metadata = {
-    name: 'The Shape Game',
-    symbol: 'SHPG',
+    name: 'Trench Grails',
+    symbol: 'TGRL',
     description:
       'NFT card game on Solana. Collect heroes, artifacts, and lands — each card is a unique compressed NFT. Hold SOL, open free boosters, build your deck, and battle.',
-    image: 'https://theshapegame.app/collection-image.png',
-    external_url: 'https://theshapegame.app',
+    image: 'https://trenchgrails.vercel.app/collection-image.png',
+    external_url: 'https://trenchgrails.vercel.app',
     properties: {
       category: 'game',
       creators: [

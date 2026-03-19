@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://theshapegame.app';
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://trenchgrails.vercel.app';
 const SCENE_URL = 'https://prod.spline.design/fNEyIuTyKEBBMlkQ/scene.splinecode?v=3';
 const SPLINE_RUNTIME_CDN = 'https://unpkg.com/@splinetool/runtime@1.12.68/build/runtime.js';
 
@@ -81,7 +81,7 @@ export async function GET(
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>${esc(title)} ${cardNumber} — The Shape Game</title>
+  <title>${esc(title)} ${cardNumber} — Trench Grails</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { width: 100%; height: 100%; overflow: hidden; background: transparent; }

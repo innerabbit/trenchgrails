@@ -1,5 +1,5 @@
 -- ========================================
--- SHAPE_CARDS — Auth & Ownership Migration
+-- TRENCH_GRAILS — Auth & Ownership Migration
 -- Run this in Supabase SQL Editor
 -- ========================================
 

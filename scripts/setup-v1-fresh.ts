@@ -3,7 +3,7 @@
  *
  * Creates:
  *   1. V1 Merkle tree (depth 13 = 8,192 cNFTs, canopy 10 = Tensor-compatible)
- *   2. Token Metadata collection NFT (symbol: SHPG)
+ *   2. Token Metadata collection NFT (symbol: TGRL)
  *
  * Usage:
  *   MINT_AUTHORITY_SECRET_KEY=... npx tsx scripts/setup-v1-fresh.ts
@@ -69,9 +69,9 @@ async function main() {
   const col = generateSigner(umi);
   await createNft(umi, {
     mint: col,
-    name: 'The Shape Game',
-    symbol: 'SHPG',
-    uri: 'https://theshapegame.app/api/nft/collection-metadata',
+    name: 'Trench Grails',
+    symbol: 'TGRL',
+    uri: 'https://trenchgrails.vercel.app/api/nft/collection-metadata',
     sellerFeeBasisPoints: percentAmount(5), // 5% royalties
     isCollection: true,
     creators: [

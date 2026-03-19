@@ -1,5 +1,5 @@
 -- ========================================
--- SHAPE_CARDS v2 — Card System Migration
+-- TRENCH_GRAILS v2 — Card System Migration
 -- Run in Supabase SQL Editor
 -- ========================================
 

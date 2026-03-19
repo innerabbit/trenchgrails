@@ -321,7 +321,7 @@ export function HoloCard({
             font="/fonts/inter-bold.woff2"
             letterSpacing={0.18}
           >
-            SHAPE
+            TRENCH
           </Text>
           <Text
             position={[0, -0.05, 0.001]}
@@ -332,7 +332,7 @@ export function HoloCard({
             font="/fonts/inter-bold.woff2"
             letterSpacing={0.18}
           >
-            CARDS
+            GRAILS
           </Text>
           <Text
             position={[0, -0.3, 0.001]}

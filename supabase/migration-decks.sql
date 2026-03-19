@@ -1,5 +1,5 @@
 -- ========================================
--- SHAPE_CARDS — Decks & Dungeon Migration
+-- TRENCH_GRAILS — Decks & Dungeon Migration
 -- Run this in Supabase SQL Editor
 -- ========================================
 

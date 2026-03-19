@@ -66,11 +66,11 @@ export function FaqContent() {
         gap: 6,
       }}>
         <span style={{ fontSize: 16 }}>?</span>
-        THE SHAPE GAME — FAQ
+        TRENCH GRAILS — FAQ
       </div>
 
       <div style={{ padding: '4px 6px' }}>
-        <Section title="🃏 What is The Shape Game?" defaultOpen>
+        <Section title="🃏 What is Trench Grails?" defaultOpen>
           <p style={{ margin: 0 }}>
             A collectible card game on Solana. Collect shape cards, build decks, climb the leaderboard and earn real rewards.
           </p>
@@ -78,13 +78,13 @@ export function FaqContent() {
 
         <Section title="🎁 How do I get cards?" defaultOpen>
           <p style={{ margin: 0 }}>
-            Hold 1M <strong>$SHAPEGAME</strong> tokens in your wallet → you unlock free mint. Connect your wallet on the site, hit mint, get a random card.
+            Hold 1M <strong>$TRENCHGRAILS</strong> tokens in your wallet → you unlock free mint. Connect your wallet on the site, hit mint, get a random card.
           </p>
         </Section>
 
         <Section title="👛 What do I need to start?" defaultOpen>
           <p style={{ margin: 0 }}>
-            A Solana wallet (Phantom, Backpack, etc.) and 1M <strong>$SHAPEGAME</strong> tokens.
+            A Solana wallet (Phantom, Backpack, etc.) and 1M <strong>$TRENCHGRAILS</strong> tokens.
           </p>
         </Section>
 
@@ -108,7 +108,7 @@ export function FaqContent() {
 
         <Section title="💰 How do I earn?">
           <p style={{ margin: 0 }}>
-            10% of all trading commissions are automatically used to buy back <strong>$SHAPEGAME</strong> via the agent mode on pump.fun. More volume = more buybacks = price go up.
+            10% of all trading commissions are automatically used to buy back <strong>$TRENCHGRAILS</strong> via the agent mode on pump.fun. More volume = more buybacks = price go up.
           </p>
         </Section>
 
@@ -126,7 +126,7 @@ export function FaqContent() {
 
         <Section title="🪙 Where is the token?">
           <p style={{ margin: 0 }}>
-            <strong>$SHAPEGAME</strong> is on Solana, launched on pump.fun.
+            <strong>$TRENCHGRAILS</strong> is on Solana, launched on pump.fun.
           </p>
         </Section>
 
@@ -148,7 +148,7 @@ export function FaqContent() {
           color: '#999',
           fontSize: 10,
         }}>
-          theshapegame.app — Built on Solana
+          trenchgrails.vercel.app — Built on Solana
         </div>
       </div>
     </div>

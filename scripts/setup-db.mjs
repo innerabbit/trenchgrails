@@ -28,7 +28,7 @@ if (!dbUrl) {
 }
 
 async function main() {
-  console.log('=== Shape Cards DB Setup ===');
+  console.log('=== Trench Grails DB Setup ===');
   const client = new pg.Client({
     connectionString: dbUrl,
     ssl: { rejectUnauthorized: false },

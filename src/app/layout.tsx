@@ -13,13 +13,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'The Shape Game — Hold. Collect. Battle.',
+  title: 'Trench Grails — Hold. Collect. Battle.',
   description:
     'NFT card game on Solana. Hold SOL, get free booster packs with 3 NFT cards each, build your deck and battle.',
   openGraph: {
-    title: 'The Shape Game',
-    description: 'NFT card game on Solana — hold $SHAPEGAME, collect and battle',
-    siteName: 'The Shape Game',
+    title: 'Trench Grails',
+    description: 'NFT card game on Solana — hold $TRENCHGRAILS, collect and battle',
+    siteName: 'Trench Grails',
   },
 };
 

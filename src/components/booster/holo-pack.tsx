@@ -55,8 +55,8 @@ export function HoloPack({ phase, onClick }: HoloPackProps) {
           className="absolute inset-0 z-10 pointer-events-none flex flex-col items-center justify-end pb-6"
           style={{ textShadow: '0 2px 8px rgba(0,0,0,0.8)' }}
         >
-          <div className="text-white text-lg font-bold tracking-[0.3em]">SHAPE</div>
-          <div className="text-white text-lg font-bold tracking-[0.3em]">CARDS</div>
+          <div className="text-white text-lg font-bold tracking-[0.3em]">TRENCH</div>
+          <div className="text-white text-lg font-bold tracking-[0.3em]">GRAILS</div>
           <div className="text-white/40 text-[8px] tracking-[0.2em] mt-1">BOOSTER PACK &bull; 6 CARDS</div>
         </div>
 

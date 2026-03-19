@@ -74,10 +74,10 @@ export function OnboardingContent() {
             >
               <div className="text-5xl mb-3">🎴</div>
               <div className="text-lg font-bold" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.3)' }}>
-                THE SHAPE
+                TRENCH
               </div>
               <div className="text-2xl font-black tracking-wider" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.3)' }}>
-                GAME
+                GRAILS
               </div>
               <div className="text-[10px] mt-2 opacity-80">NFT Card Game on Solana</div>
             </div>
@@ -96,7 +96,7 @@ export function OnboardingContent() {
       {/* Right panel */}
       <div className="flex-1 space-y-5">
         <div>
-          <h2 className="text-sm font-bold text-[#003399] mb-1">Welcome to The Shape Game</h2>
+          <h2 className="text-sm font-bold text-[#003399] mb-1">Welcome to Trench Grails</h2>
           <p className="text-[11px] text-[#444] leading-relaxed">
             NFT card game on Solana. Hold, collect, battle.
           </p>

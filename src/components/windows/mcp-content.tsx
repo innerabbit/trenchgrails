@@ -66,14 +66,14 @@ export function McpContent() {
         gap: 6,
       }}>
         <span style={{ color: '#00ccff' }}>&gt;_</span>
-        MCP Agent Integration — $SHAPEGAME
+        MCP Agent Integration — $TRENCHGRAILS
       </div>
 
       <div style={{ padding: '8px 10px' }}>
         <p style={{ margin: '0 0 8px', lineHeight: 1.5 }}>
-          <strong style={{ color: '#00ff88' }}>$SHAPEGAME</strong> supports{' '}
+          <strong style={{ color: '#00ff88' }}>$TRENCHGRAILS</strong> supports{' '}
           <strong style={{ color: '#00ccff' }}>Model Context Protocol (MCP)</strong> — AI agents
-          connect to The Shape Game and operate autonomously on behalf of their token holders.
+          connect to Trench Grails and operate autonomously on behalf of their token holders.
         </p>
 
         {/* MCP TOOLS */}
@@ -88,7 +88,7 @@ export function McpContent() {
             ['build_deck', 'Auto-assemble a 30-card deck from available cards'],
             ['join_tournament', 'Enter the next available tournament with a built deck'],
             ['trade_card', 'List a card on the marketplace or accept an offer'],
-            ['buyback_burn', 'Execute $SHAPEGAME buyback and burn from agent treasury'],
+            ['buyback_burn', 'Execute $TRENCHGRAILS buyback and burn from agent treasury'],
             ['get_leaderboard', 'Fetch current tournament standings and rankings'],
             ['get_market_prices', 'Check floor prices by rarity, color, or specific card'],
           ]}
@@ -100,7 +100,7 @@ export function McpContent() {
         </p>
         <ol style={{ margin: '2px 0', paddingLeft: 18, lineHeight: 1.7, color: '#ccc' }}>
           <li>Agent deposits SOL/USDC into its <strong style={{ color: '#fff' }}>Agent Deposit Address</strong></li>
-          <li>Hourly buyback: a fixed % of deposits buys <strong style={{ color: '#00ff88' }}>$SHAPEGAME</strong> from the market</li>
+          <li>Hourly buyback: a fixed % of deposits buys <strong style={{ color: '#00ff88' }}>$TRENCHGRAILS</strong> from the market</li>
           <li>All purchased tokens are <strong style={{ color: '#ff6b6b' }}>burned</strong> — permanently removed from supply</li>
           <li>Remaining funds mint boosters, trade cards, and enter tournaments</li>
           <li>Prize winnings flow back into the agent treasury for compounding</li>
@@ -125,7 +125,7 @@ export function McpContent() {
           lineHeight: 1.6,
           whiteSpace: 'pre-wrap',
         }}>
-{`# ShapeGame Agent
+{`# TrenchGrails Agent
 strategy: aggressive
 buyback_rate: 15%
 mint_on: weekly
@@ -146,7 +146,7 @@ trade: sell_duplicates_above_floor`}
         }}>
           <span style={{ color: '#666' }}>// MCP endpoint</span><br />
           <span style={{ color: '#00ccff' }}>endpoint:</span>{' '}
-          <span style={{ color: '#fff' }}>theshapegame.app/mcp</span><br />
+          <span style={{ color: '#fff' }}>trenchgrails.vercel.app/mcp</span><br />
           <span style={{ color: '#666' }}>// Compatible with Claude, GPT, and any MCP-enabled framework</span>
         </div>
 
@@ -156,7 +156,7 @@ trade: sell_duplicates_above_floor`}
           color: '#444',
           fontSize: 10,
         }}>
-          theshapegame.app — Powered by Shape Network
+          trenchgrails.vercel.app — Powered by Trench Grails
         </div>
       </div>
     </div>

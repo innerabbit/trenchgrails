@@ -347,7 +347,7 @@ export function RunnerContent() {
         ctx.fillStyle = '#e8c020';
         ctx.font = 'bold 14px monospace';
         ctx.textAlign = 'center';
-        ctx.fillText('SHAPE RUNNER', CANVAS_W / 2, 65);
+        ctx.fillText('TRENCH RUNNER', CANVAS_W / 2, 65);
         ctx.shadowBlur = 0;
         ctx.fillStyle = '#8888aa';
         ctx.font = '10px monospace';

@@ -72,7 +72,7 @@ function TaskbarInner() {
             <div className="xp-start-menu">
               <div className="xp-start-menu-header">
                 <Image src="/icons/xp-cards.svg" alt="" width={16} height={16} />
-                <span className="font-bold">THE SHAPE GAME</span>
+                <span className="font-bold">TRENCH GRAILS</span>
               </div>
               <div className="xp-start-menu-items">
                 {ALL_WINDOWS.map((w) => (
@@ -122,10 +122,10 @@ function TaskbarInner() {
         </a>
         <div style={{ width: 1, height: 16, background: 'rgba(255,255,255,0.2)' }} />
         <WalletButton />
-        <a href="https://x.com/theshapegame" target="_blank" rel="noopener noreferrer" className="xp-tray-link">
+        <a href="https://x.com/trenchgrails" target="_blank" rel="noopener noreferrer" className="xp-tray-link">
           <img src="/icons/twitter.svg" alt="Twitter" width={14} height={14} />
         </a>
-        <a href="https://github.com/innerabbit/Shapegame" target="_blank" rel="noopener noreferrer" className="xp-tray-link">
+        <a href="https://github.com/innerabbit/trenchgrails" target="_blank" rel="noopener noreferrer" className="xp-tray-link">
           <img src="/icons/github.svg" alt="GitHub" width={14} height={14} />
         </a>
         <img src="/icons/xp-speaker.svg" alt="" width={14} height={14} />

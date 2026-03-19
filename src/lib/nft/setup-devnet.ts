@@ -72,8 +72,8 @@ async function main() {
   const collection = generateSigner(umi);
   await createCollection(umi, {
     collection,
-    name: 'Shape Cards (Devnet)',
-    uri: 'https://theshapegame.app/api/nft/metadata/1',
+    name: 'Trench Grails (Devnet)',
+    uri: 'https://trenchgrails.vercel.app/api/nft/metadata/1',
     plugins: [{ type: 'BubblegumV2' }],
   }).sendAndConfirm(umi);
   console.log('Collection created:', collection.publicKey.toString());

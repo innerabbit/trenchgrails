@@ -232,7 +232,7 @@ export function MintContent() {
           1,
           'Connect Wallet',
           currentStep > 1 ? 'done' : 'active',
-          connected ? `${shortAddr} · ${Number(status?.currentBalance ?? 0).toLocaleString()} $SHAPEGAME` : '',
+          connected ? `${shortAddr} · ${Number(status?.currentBalance ?? 0).toLocaleString()} $TRENCHGRAILS` : '',
           <div className="text-center py-2">
             <p className="text-[11px] text-[#444] mb-3">
               Connect your Solana wallet to start
@@ -246,20 +246,20 @@ export function MintContent() {
           </div>,
         )}
 
-        {/* ── Step 2: Hold $SHAPEGAME (token balance check) ── */}
+        {/* ── Step 2: Hold $TRENCHGRAILS (token balance check) ── */}
         {renderStep(
           2,
-          'Hold $SHAPEGAME',
+          'Hold $TRENCHGRAILS',
           currentStep > 2 ? 'done' : currentStep === 2 ? 'active' : 'pending',
-          `${Number(status?.currentBalance ?? 0).toLocaleString()} $SHAPEGAME`,
+          `${Number(status?.currentBalance ?? 0).toLocaleString()} $TRENCHGRAILS`,
           <div className="space-y-3">
             <p className="text-[11px] text-[#cc0000]">
-              You need at least {Number(status?.requiredBalance ?? 1_000_000).toLocaleString()} $SHAPEGAME tokens.
+              You need at least {Number(status?.requiredBalance ?? 1_000_000).toLocaleString()} $TRENCHGRAILS tokens.
             </p>
             <div className="flex items-center justify-between text-[11px]">
               <span className="text-[#666]">Current balance:</span>
               <span className="font-bold text-[#cc0000]">
-                {Number(status?.currentBalance ?? 0).toLocaleString()} $SHAPEGAME
+                {Number(status?.currentBalance ?? 0).toLocaleString()} $TRENCHGRAILS
               </span>
             </div>
           </div>,

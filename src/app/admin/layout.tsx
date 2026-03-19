@@ -25,7 +25,7 @@ export default function AdminLayout({
             <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
               <span className="text-2xl">🎴</span>
               <h1 className="text-lg font-bold tracking-tight">
-                THE SHAPE GAME
+                TRENCH GRAILS
               </h1>
             </Link>
             <span className="text-xs bg-neutral-800 text-neutral-400 px-2 py-0.5 rounded-full">

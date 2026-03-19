@@ -54,7 +54,7 @@ async function main() {
 
   await createCollection(umi, {
     collection: collectionSigner,
-    name: 'Shape Cards',
+    name: 'Trench Grails',
     uri: '', // Will be set later with collection-level metadata
   }).sendAndConfirm(umi);
 

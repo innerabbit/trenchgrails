@@ -14,7 +14,7 @@ export async function POST(request: Request) {
     const timestamp = new Date().toISOString();
     const expiresAt = new Date(Date.now() + 5 * 60 * 1000).toISOString(); // 5 min
 
-    const message = `Sign this message to login to The Shape Game.\nWallet: ${walletAddress}\nNonce: ${nonce}\nTimestamp: ${timestamp}`;
+    const message = `Sign this message to login to Trench Grails.\nWallet: ${walletAddress}\nNonce: ${nonce}\nTimestamp: ${timestamp}`;
 
     const supabase = createAdminClient();
 

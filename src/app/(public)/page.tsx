@@ -68,7 +68,7 @@ export default function HomePage() {
 
       <XpManagedWindow
         windowId="collection"
-        statusBar={<><div>Collection</div><div className="flex-1 text-right">THE SHAPE GAME</div></>}
+        statusBar={<><div>Collection</div><div className="flex-1 text-right">TRENCH GRAILS</div></>}
       >
         <CollectionContent />
       </XpManagedWindow>

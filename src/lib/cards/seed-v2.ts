@@ -1,5 +1,5 @@
 // ========================================
-// SHAPE_CARDS v2 — Seed 125 Cards
+// TRENCH_GRAILS v2 — Seed 125 Cards
 // Based on Notion mechanics doc
 // ========================================
 

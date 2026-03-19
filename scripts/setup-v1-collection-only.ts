@@ -43,9 +43,9 @@ async function main() {
   const col = generateSigner(umi);
   await createNft(umi, {
     mint: col,
-    name: 'The Shape Game',
-    symbol: 'SHAPE',
-    uri: 'https://theshapegame.app/api/nft/collection-metadata',
+    name: 'Trench Grails',
+    symbol: 'TGRL',
+    uri: 'https://trenchgrails.vercel.app/api/nft/collection-metadata',
     sellerFeeBasisPoints: percentAmount(5),
     isCollection: true,
     creators: [

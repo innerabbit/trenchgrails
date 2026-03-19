@@ -1,5 +1,5 @@
 -- ========================================
--- SHAPE_CARDS — Database Schema
+-- TRENCH_GRAILS — Database Schema
 -- Run this in Supabase SQL Editor
 -- ========================================
 

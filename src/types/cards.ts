@@ -1,5 +1,5 @@
 // ========================================
-// SHAPE_CARDS v2 — Core Types
+// TRENCH_GRAILS v2 — Core Types
 // ========================================
 
 // ── Legacy types (kept for backward compat) ──────────
