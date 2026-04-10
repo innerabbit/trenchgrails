@@ -43,7 +43,7 @@ async function main() {
   await createCollection(umi, {
     collection,
     name: 'Trench Grails Test',
-    uri: 'https://trenchgrails.vercel.app/api/nft/metadata/1',
+    uri: 'https://trenchgrails.com/api/nft/metadata/1',
     plugins: [{ type: 'BubblegumV2' }],
   }).sendAndConfirm(umi);
   console.log('Collection (with BubblegumV2 plugin):', collection.publicKey.toString());
@@ -64,7 +64,7 @@ async function main() {
         coreCollection: collection.publicKey,
         metadata: {
           name: `Trench Card #${String(num).padStart(3, '0')}`,
-          uri: `https://trenchgrails.vercel.app/api/nft/metadata/${num}`,
+          uri: `https://trenchgrails.com/api/nft/metadata/${num}`,
           sellerFeeBasisPoints: 500,
           creators: [
             { address: signer.publicKey, verified: true, share: 100 },

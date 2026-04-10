@@ -97,7 +97,10 @@ function buildPromptFromTemplates(
 ): string {
   const base = templates['base'] || '';
   const type = card.card_type as string;
-  const typeTemplate = templates[type];
+  // For lands, prefer shape-specific template (e.g. land_circle) over generic land
+  const typeTemplate = (type === 'land' && card.shape && templates[`land_${card.shape}`])
+    ? templates[`land_${card.shape}`]
+    : templates[type];
 
   if (!typeTemplate) {
     return `${base}\n\nCard: ${card.name} (${card.card_type}). Describe a scene for this card.`;

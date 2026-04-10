@@ -61,6 +61,7 @@ export default function CardsV2Page() {
   const [prompts, setPrompts] = useState<Record<string, { id: string; label: string; content: string; updated_at: string }> | null>(null);
   const [promptDrafts, setPromptDrafts] = useState<Record<string, string>>({});
   const [savingPrompt, setSavingPrompt] = useState<string | null>(null);
+  const [refs, setRefs] = useState<Record<string, { id: string; url: string; label: string }[]>>({});
 
   // Fetch cards
   const fetchCards = useCallback(async () => {
@@ -107,7 +108,7 @@ export default function CardsV2Page() {
     total: cards.length,
     withDesc: cards.filter(c => c.art_description).length,
     withArt: cards.filter(c => c.raw_art_path).length,
-    lands: cards.filter(c => c.card_type === 'land').length,
+    influencers: cards.filter(c => c.card_type === 'land').length,
     heroes: cards.filter(c => c.card_type === 'hero').length,
     artifacts: cards.filter(c => c.card_type === 'artifact').length,
   }), [cards]);
@@ -253,10 +254,55 @@ export default function CardsV2Page() {
         for (const [slug, def] of Object.entries(TEMPLATE_DEFAULTS)) {
           if (!drafts[slug]) drafts[slug] = def.content;
         }
+        // Dynamic land type defaults will be applied in render via allTemplateDefaults
         setPromptDrafts(drafts);
       }
     } catch {
       toast.error('Failed to load prompts');
+    }
+  };
+
+  const fetchRefs = async () => {
+    try {
+      const res = await fetch('/api/prompt-refs');
+      const data = await res.json();
+      if (data.refs) {
+        const grouped: Record<string, any[]> = {};
+        for (const ref of data.refs) {
+          if (!grouped[ref.slug]) grouped[ref.slug] = [];
+          grouped[ref.slug].push(ref);
+        }
+        setRefs(grouped);
+      }
+    } catch {}
+  };
+
+  const uploadRef = async (slug: string, file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('slug', slug);
+    const res = await fetch('/api/prompt-refs', { method: 'POST', body: formData });
+    const data = await res.json();
+    if (data.ref) {
+      setRefs(prev => ({
+        ...prev,
+        [slug]: [...(prev[slug] || []), data.ref],
+      }));
+      toast.success('Reference image uploaded');
+    } else {
+      toast.error(data.error || 'Upload failed');
+    }
+  };
+
+  const deleteRef = async (slug: string, refId: string) => {
+    const res = await fetch(`/api/prompt-refs?id=${refId}`, { method: 'DELETE' });
+    const data = await res.json();
+    if (data.success) {
+      setRefs(prev => ({
+        ...prev,
+        [slug]: (prev[slug] || []).filter(r => r.id !== refId),
+      }));
+      toast.success('Reference deleted');
     }
   };
 
@@ -266,18 +312,63 @@ export default function CardsV2Page() {
     ctx_color: { label: 'Context: Mana Colors', content: 'yellow: faith, order, churches, gospel\nblue: technology, control, computer labs\nblack: street power, hustle, nighttime\nred: art, chaos, creativity, performance\ngreen: sport, nature, physical force\nwhite: artifacts, neutral, equipment' },
     ctx_material: { label: 'Context: Materials', content: 'flat: cheap looking, cardboard cutout, lo-fi\ngradient: slightly better, textured, print quality\n3d: solid, glossy, catches the flash light\nchrome: shiny metallic, mirror reflections, premium\ngold: luxurious golden gleam, heavy, rare treasure' },
     ctx_rarity: { label: 'Context: Rarity Scale', content: 'legendary: EPIC, larger-than-life composition\nepic: dramatic, powerful presence\nrare: everyday street scene\nuncommon: everyday street scene\ncommon: everyday street scene' },
+    land_shapes: { label: '👤 Influencer Types', content: 'circle: ⚪\nhexagon: ⬡\ndiamond: 💎\nstar: ⭐\ntriangle: 🔺' },
+    land_materials: { label: '⛏️ Influencer Materials', content: 'flat: common, Flat (2D), 50\ngradient: uncommon, Gradient / Textured, 25\n3d: rare, 3D Rendered, 15\nchrome: epic, Chrome, 7\ngold: legendary, Gold, 3' },
   };
 
   // Template defaults — shown when not yet saved to DB
   const TEMPLATE_DEFAULTS: Record<string, { label: string; content: string }> = {
     base: { label: 'Base Style Prompt', content: 'You are an art director for a collectible card game set in Detroit, 1996. Everything is shot on VHS / disposable camera aesthetic — grainy, muted colors, harsh flash, lo-fi. The vibe is 90s hip-hop culture, street life, community.\n\nGenerate a vivid, cinematic visual description (2-3 sentences) for this card\'s artwork. The description should be specific enough for an AI image generator to create the art. Focus on composition, lighting, setting, and mood. Detroit \'96 aesthetic is mandatory.' },
     hero: { label: 'Hero Card Template', content: 'HERO CARD:\n- Name: {{name}}\n- Class: {{hero_class}} ({{class_context}})\n- Color: {{color}}\n- Rarity: {{rarity_tier}}\n- ATK: {{atk}}, HP: {{hp}}\n- Perk 1: {{perk_1_name}} — {{perk_1_desc}}\n{{perk_2_line}}\n\nDescribe this character in a Detroit \'96 scene. Include their appearance, clothing, pose, and environment. The character\'s power level should be reflected in the scene scale — {{rarity_scale}}.' },
-    land: { label: 'Land Card Template', content: 'LAND CARD (Mana Source):\n- Name: {{name}}\n- Color: {{color}} ({{color_context}})\n- Shape: {{shape}}\n- Material: {{material}}\n- Rarity: {{rarity_tier}}\n\nDescribe a Detroit \'96 location that embodies the {{color}} mana color. The {{shape}} shape in {{material}} material should be subtly integrated into the scene — maybe as graffiti, an object, architecture detail, or held by someone. Material quality reflects rarity: {{material_context}}.' },
+    land: { label: 'Influencer Card Template (fallback)', content: 'LAND CARD (Mana Source):\n- Name: {{name}}\n- Color: {{color}} ({{color_context}})\n- Shape: {{shape}}\n- Material: {{material}}\n- Rarity: {{rarity_tier}}\n\nDescribe a location that embodies the {{color}} mana color. The {{shape}} shape in {{material}} material should be subtly integrated into the scene. Material quality reflects rarity: {{material_context}}.' },
+    land_circle: { label: '⚪ Influencer: Circle', content: 'LAND CARD — CIRCLE:\n- Name: {{name}}\n- Color: {{color}} ({{color_context}})\n- Material: {{material}}\n- Rarity: {{rarity_tier}}\n\nDescribe a location with circular motifs that embodies {{color}} mana. Circles appear as portals, mandalas, arenas, or sacred rings. Material quality: {{material_context}}.' },
+    land_hexagon: { label: '⬡ Influencer: Hexagon', content: 'LAND CARD — HEXAGON:\n- Name: {{name}}\n- Color: {{color}} ({{color_context}})\n- Material: {{material}}\n- Rarity: {{rarity_tier}}\n\nDescribe a location with hexagonal patterns that embodies {{color}} mana. Hexagons appear as honeycombs, tiles, crystalline structures, or tech grids. Material quality: {{material_context}}.' },
+    land_diamond: { label: '💎 Influencer: Diamond', content: 'LAND CARD — DIAMOND:\n- Name: {{name}}\n- Color: {{color}} ({{color_context}})\n- Material: {{material}}\n- Rarity: {{rarity_tier}}\n\nDescribe a location with diamond shapes that embodies {{color}} mana. Diamonds appear as gems, windows, ornate frames, or crystalline formations. Material quality: {{material_context}}.' },
+    land_star: { label: '⭐ Influencer: Star', content: 'LAND CARD — STAR:\n- Name: {{name}}\n- Color: {{color}} ({{color_context}})\n- Material: {{material}}\n- Rarity: {{rarity_tier}}\n\nDescribe a location with star motifs that embodies {{color}} mana. Stars appear as celestial symbols, emblems, badges, or radiant light sources. Material quality: {{material_context}}.' },
+    land_triangle: { label: '🔺 Influencer: Triangle', content: 'LAND CARD — TRIANGLE:\n- Name: {{name}}\n- Color: {{color}} ({{color_context}})\n- Material: {{material}}\n- Rarity: {{rarity_tier}}\n\nDescribe a location with triangular forms that embodies {{color}} mana. Triangles appear as pyramids, rooftops, arrows, mountain peaks, or ritual symbols. Material quality: {{material_context}}.' },
     artifact: { label: 'Artifact Card Template', content: 'ARTIFACT CARD (Weapon/Equipment):\n- Name: {{name}}\n- Type: {{artifact_subtype}}\n- Rarity: {{rarity_tier}}\n- Effect: {{ability}}\n\nDescribe this item in a Detroit \'96 context. Show the {{name}} as if photographed on a table, in someone\'s hands, or in use on the street. The item\'s power should match its rarity: {{rarity_scale}}.' },
     image_style: { label: 'Image Style Prompt', content: '' },
     generator_base: { label: '🎨 Generator Base (Custom Cards)', content: 'You generate trading card characters for a collectible card game. The user will describe who they want.\n\nBased on the user prompt below, create a character card. Give it a funny gangsta street name, a meme-worthy ability, and random stats.\n\nUser prompt: {{prompt}}\n\nReturn ONLY valid JSON with these fields:\n- name: a funny gangsta/street nickname (max 50 chars)\n- ability: a humorous meme ability description (max 200 chars)\n- attack: 1-10\n- defense: 1-10\n- speed: 1-10\n- mana_cost: 1-5\n- rarity: common/rare/epic/legendary\n- material: flat/holographic/gold' },
     generator_art: { label: '🖼️ Generator Art Style (Custom Cards)', content: 'Trading card game character portrait. {{prompt}}. The character\'s name is "{{name}}". Style: digital art, vibrant colors, fantasy game card illustration, centered character portrait on transparent/simple background. No text or UI elements.' },
   };
+
+  // Dynamic land shape slugs — derived from land_shapes context map
+  const parsedLandShapes = useMemo(() => {
+    const src = promptDrafts['land_shapes'] || CTX_DEFAULTS?.['land_shapes']?.content || '';
+    return src
+      .split('\n')
+      .map(line => line.trim())
+      .filter(line => line && !line.startsWith('#') && !line.startsWith('//'))
+      .map(line => {
+        const idx = line.indexOf(':');
+        if (idx === -1) return null;
+        const key = line.slice(0, idx).trim().toLowerCase().replace(/\s+/g, '_');
+        const emoji = line.slice(idx + 1).trim();
+        return key ? { slug: `land_${key}`, label: `${emoji} Influencer: ${key.charAt(0).toUpperCase() + key.slice(1)}`, key } : null;
+      })
+      .filter(Boolean) as { slug: string; label: string; key: string }[];
+  }, [promptDrafts['land_shapes']]);
+
+  // All template slugs with dynamic land types
+  const templateSlugs = useMemo(() => [
+    'image_style', 'base', 'hero', 'land',
+    ...parsedLandShapes.map(d => d.slug),
+    'artifact', 'generator_base', 'generator_art',
+  ], [parsedLandShapes]);
+
+  // Dynamic defaults for land templates not in TEMPLATE_DEFAULTS
+  const allTemplateDefaults = useMemo(() => {
+    const dynamic: Record<string, { label: string; content: string }> = { ...TEMPLATE_DEFAULTS };
+    for (const d of parsedLandShapes) {
+      if (!dynamic[d.slug]) {
+        dynamic[d.slug] = {
+          label: d.label,
+          content: `LAND CARD — ${d.key.toUpperCase()}:\n- Name: {{name}}\n- Color: {{color}} ({{color_context}})\n- Material: {{material}}\n- Rarity: {{rarity_tier}}\n\nDescribe a location with ${d.key} motifs that embodies {{color}} mana. Material quality: {{material_context}}.`,
+        };
+      }
+    }
+    return dynamic;
+  }, [parsedLandShapes]);
 
   // Save a single prompt
   const savePrompt = async (slug: string) => {
@@ -286,7 +377,7 @@ export default function CardsV2Page() {
       const res = await fetch('/api/prompts', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ slug, content: promptDrafts[slug], ...(CTX_DEFAULTS[slug] ? { label: CTX_DEFAULTS[slug].label } : TEMPLATE_DEFAULTS[slug] ? { label: TEMPLATE_DEFAULTS[slug].label } : {}) }),
+        body: JSON.stringify({ slug, content: promptDrafts[slug], ...(CTX_DEFAULTS[slug] ? { label: CTX_DEFAULTS[slug].label } : allTemplateDefaults[slug] ? { label: allTemplateDefaults[slug].label } : {}) }),
       });
       const data = await res.json();
       if (data.prompt) {
@@ -368,7 +459,8 @@ export default function CardsV2Page() {
   };
 
   // Type icon
-  const typeIcon = (t: string) => t === 'land' ? '🌍' : t === 'hero' ? '⚔️' : '🔧';
+  const typeIcon = (t: string) => t === 'land' ? '👤' : t === 'hero' ? '⚔️' : '🔧';
+  const typeLabel = (t: string) => t === 'land' ? 'Influencer' : t === 'hero' ? 'Hero' : 'Artifact';
 
   if (loading) {
     return <div className="text-center py-20 text-neutral-500">Loading cards...</div>;
@@ -405,7 +497,7 @@ export default function CardsV2Page() {
         <div className="flex items-center gap-4">
           <h2 className="text-xl font-bold">Cards v2</h2>
           <span className="text-sm text-neutral-400">
-            {stats.total} total — {stats.lands} lands, {stats.heroes} heroes, {stats.artifacts} artifacts
+            {stats.total} total — {stats.influencers} influencers, {stats.heroes} heroes, {stats.artifacts} artifacts
           </span>
         </div>
         <div className="flex items-center gap-3 text-xs text-neutral-400">
@@ -418,7 +510,7 @@ export default function CardsV2Page() {
       <div className="flex flex-wrap items-center gap-2 bg-neutral-900 p-3 rounded-lg border border-neutral-800">
         <select value={typeFilter} onChange={e => setTypeFilter(e.target.value as any)} className="bg-neutral-800 text-sm rounded px-2 py-1 border border-neutral-700">
           <option value="all">All Types</option>
-          <option value="land">🌍 Lands</option>
+          <option value="land">👤 Influencers</option>
           <option value="hero">⚔️ Heroes</option>
           <option value="artifact">🔧 Artifacts</option>
         </select>
@@ -492,7 +584,7 @@ export default function CardsV2Page() {
         onToggle={(e) => {
           const open = (e.target as HTMLDetailsElement).open;
           setPromptsOpen(open);
-          if (open && !prompts) fetchPrompts();
+          if (open && !prompts) { fetchPrompts(); fetchRefs(); }
         }}
       >
         <summary className="text-sm font-medium cursor-pointer text-neutral-300">📝 Prompt Templates (Supabase)</summary>
@@ -515,7 +607,7 @@ export default function CardsV2Page() {
               <p className="text-[10px] text-neutral-500 mb-3">
                 Format: <code className="text-amber-300">key: value</code> per line. These fill {'{{class_context}}'}, {'{{color_context}}'}, {'{{material_context}}'}, {'{{rarity_scale}}'} in templates.
               </p>
-              {(['ctx_class', 'ctx_color', 'ctx_material', 'ctx_rarity'] as const).map(slug => {
+              {(['ctx_class', 'ctx_color', 'ctx_material', 'ctx_rarity', 'land_shapes', 'land_materials'] as const).map(slug => {
                 const p = prompts?.[slug];
                 const defaults = CTX_DEFAULTS[slug];
                 const label = p?.label ?? defaults.label;
@@ -554,10 +646,10 @@ export default function CardsV2Page() {
               })}
             </div>
 
-            {/* Prompt Templates */}
-            {(['image_style', 'base', 'hero', 'land', 'artifact', 'generator_base', 'generator_art'] as const).map(slug => {
+            {/* Prompt Templates — land types are dynamic from land_shapes */}
+            {templateSlugs.map(slug => {
               const p = prompts?.[slug];
-              const defaults = TEMPLATE_DEFAULTS[slug];
+              const defaults = allTemplateDefaults[slug];
               const label = p?.label ?? defaults?.label ?? slug;
               const savedContent = p?.content ?? '';
               const draft = promptDrafts[slug] ?? (savedContent || defaults?.content || '');
@@ -601,7 +693,7 @@ export default function CardsV2Page() {
                     <p className="text-[10px] text-neutral-600">
                       Variables: {'{{name}} {{color}} {{rarity_tier}} {{rarity_scale}}'}{' '}
                       {slug === 'hero' && '{{hero_class}} {{class_context}} {{atk}} {{hp}} {{perk_1_name}} {{perk_1_desc}} {{perk_2_line}}'}
-                      {slug === 'land' && '{{color_context}} {{shape}} {{material}} {{material_context}}'}
+                      {(slug === 'land' || slug.startsWith('land_')) && '{{color_context}} {{shape}} {{material}} {{material_context}}'}
                       {slug === 'artifact' && '{{artifact_subtype}} {{ability}}'}
                     </p>
                   )}
@@ -612,6 +704,48 @@ export default function CardsV2Page() {
                   >
                     {savingPrompt === slug ? 'Saving...' : isNew ? 'Save to DB' : changed ? 'Save Changes' : 'No Changes'}
                   </button>
+                  {/* Reference Images */}
+                  {(slug === 'hero' || slug === 'land' || slug.startsWith('land_') || slug === 'artifact') && (
+                    <div className="mt-2 border border-neutral-700 rounded-lg p-2 bg-neutral-900/50">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-[10px] font-semibold text-neutral-500 uppercase">Reference Images</span>
+                        <label className="bg-blue-700 hover:bg-blue-600 text-white px-3 py-1 rounded text-[10px] cursor-pointer">
+                          + Upload
+                          <input
+                            type="file"
+                            accept="image/*"
+                            className="hidden"
+                            onChange={e => {
+                              const file = e.target.files?.[0];
+                              if (file) uploadRef(slug, file);
+                              e.target.value = '';
+                            }}
+                          />
+                        </label>
+                      </div>
+                      {(refs[slug] || []).length > 0 ? (
+                        <div className="flex flex-wrap gap-2">
+                          {(refs[slug] || []).map(ref => (
+                            <div key={ref.id} className="relative group">
+                              <img
+                                src={ref.url}
+                                alt={ref.label || slug}
+                                className="w-20 h-20 object-cover rounded border border-neutral-700"
+                              />
+                              <button
+                                onClick={() => deleteRef(slug, ref.id)}
+                                className="absolute -top-1 -right-1 bg-red-600 text-white rounded-full w-4 h-4 text-[10px] leading-none opacity-0 group-hover:opacity-100 transition-opacity"
+                              >
+                                &times;
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="text-[10px] text-neutral-600 italic">No reference images yet</p>
+                      )}
+                    </div>
+                  )}
                 </div>
               );
             })}
@@ -832,7 +966,7 @@ export default function CardsV2Page() {
               </div>
             )}
 
-            {/* Land Details */}
+            {/* Influencer Details */}
             {selectedCard.card_type === 'land' && (
               <div className="space-y-2">
                 <div className="text-sm text-neutral-400">
@@ -884,6 +1018,87 @@ export default function CardsV2Page() {
                 )}
               </div>
             )}
+
+            {/* Card Reference Image */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-semibold text-neutral-400">Reference Image</span>
+                <label className="bg-blue-700 hover:bg-blue-600 text-white px-3 py-1 rounded text-[10px] cursor-pointer">
+                  {(selectedCard as any).ref_image_path ? 'Replace' : '+ Upload Ref'}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (!file || !selectedCard) return;
+                      e.target.value = '';
+
+                      const supabaseUrl = SUPABASE_URL;
+                      const ext = file.name.split('.').pop() || 'png';
+                      const fileName = `card-refs/${selectedCard.id}_${Date.now()}.${ext}`;
+
+                      const formData = new FormData();
+                      formData.append('file', file);
+                      formData.append('slug', `card_${selectedCard.id}`);
+
+                      // Upload directly to storage via the prompt-refs API pattern
+                      const res = await fetch('/api/prompt-refs', {
+                        method: 'POST',
+                        body: formData,
+                      });
+                      const data = await res.json();
+
+                      if (data.ref) {
+                        // Update card's ref_image_path in DB
+                        const updateRes = await fetch(`/api/cards/${selectedCard.id}/status`, {
+                          method: 'PATCH',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({ ref_image_path: data.ref.image_path }),
+                        });
+
+                        if (updateRes.ok) {
+                          setSelectedCard({ ...selectedCard, ref_image_path: data.ref.image_path } as any);
+                          setCards(prev => prev.map(c => c.id === selectedCard.id ? { ...c, ref_image_path: data.ref.image_path } as any : c));
+                          toast.success('Reference image uploaded');
+                        }
+                      } else {
+                        toast.error(data.error || 'Upload failed');
+                      }
+                    }}
+                  />
+                </label>
+              </div>
+              {(selectedCard as any).ref_image_path ? (
+                <div className="relative group inline-block">
+                  <img
+                    src={`${SUPABASE_URL}/storage/v1/object/public/ref-images/${(selectedCard as any).ref_image_path}`}
+                    alt="Card reference"
+                    className="w-32 h-32 object-cover rounded border border-neutral-700"
+                  />
+                  <button
+                    onClick={async () => {
+                      // Remove ref
+                      const res = await fetch(`/api/cards/${selectedCard.id}/status`, {
+                        method: 'PATCH',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ ref_image_path: null }),
+                      });
+                      if (res.ok) {
+                        setSelectedCard({ ...selectedCard, ref_image_path: null } as any);
+                        setCards(prev => prev.map(c => c.id === selectedCard.id ? { ...c, ref_image_path: null } as any : c));
+                        toast.success('Reference removed');
+                      }
+                    }}
+                    className="absolute -top-1 -right-1 bg-red-600 text-white rounded-full w-5 h-5 text-xs leading-none opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                  >
+                    &times;
+                  </button>
+                </div>
+              ) : (
+                <p className="text-[10px] text-neutral-600 italic">No reference image — upload one for better art generation</p>
+              )}
+            </div>
 
             {/* Art + 3D Preview Row */}
             <div className="flex gap-3">

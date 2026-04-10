@@ -73,7 +73,7 @@ async function main() {
   await createCollection(umi, {
     collection,
     name: 'Trench Grails (Devnet)',
-    uri: 'https://trenchgrails.vercel.app/api/nft/metadata/1',
+    uri: 'https://trenchgrails.com/api/nft/metadata/1',
     plugins: [{ type: 'BubblegumV2' }],
   }).sendAndConfirm(umi);
   console.log('Collection created:', collection.publicKey.toString());

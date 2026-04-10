@@ -146,7 +146,7 @@ trade: sell_duplicates_above_floor`}
         }}>
           <span style={{ color: '#666' }}>// MCP endpoint</span><br />
           <span style={{ color: '#00ccff' }}>endpoint:</span>{' '}
-          <span style={{ color: '#fff' }}>trenchgrails.vercel.app/mcp</span><br />
+          <span style={{ color: '#fff' }}>trenchgrails.com/mcp</span><br />
           <span style={{ color: '#666' }}>// Compatible with Claude, GPT, and any MCP-enabled framework</span>
         </div>
 
@@ -156,7 +156,7 @@ trade: sell_duplicates_above_floor`}
           color: '#444',
           fontSize: 10,
         }}>
-          trenchgrails.vercel.app — Powered by Trench Grails
+          trenchgrails.com — Powered by Trench Grails
         </div>
       </div>
     </div>

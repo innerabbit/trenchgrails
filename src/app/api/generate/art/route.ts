@@ -43,11 +43,140 @@ export async function POST(request: NextRequest) {
     // No prompts table — continue without base prompt
   }
 
+  // Load reference images for this card type
+  let refImageParts: any[] = [];
+  try {
+    const cardType = cardData?.card_type || '';
+    const shape = cardData?.shape || '';
+    // Try specific slug first (e.g. land_circle), then generic (e.g. land)
+    const slugsToTry = cardType === 'land' && shape
+      ? [`land_${shape}`, 'land']
+      : [cardType];
+
+    for (const refSlug of slugsToTry) {
+      const { data: refRows } = await supabaseForPrompts
+        .from('prompt_refs')
+        .select('image_path')
+        .eq('slug', refSlug)
+        .order('sort_order');
+
+      if (refRows && refRows.length > 0) {
+        for (const row of refRows) {
+          try {
+            const { data: fileData } = await supabaseForPrompts.storage
+              .from('ref-images')
+              .download(row.image_path);
+            if (fileData) {
+              const buffer = Buffer.from(await fileData.arrayBuffer());
+              const base64 = buffer.toString('base64');
+              const mime = row.image_path.endsWith('.jpg') || row.image_path.endsWith('.jpeg')
+                ? 'image/jpeg' : 'image/png';
+              refImageParts.push({
+                inlineData: { mimeType: mime, data: base64 }
+              });
+            }
+          } catch {}
+        }
+        break; // Use the first slug that has refs
+      }
+    }
+  } catch {}
+
+  // Load card-specific reference image (ref_image_path on the card itself)
+  if (cardData?.ref_image_path) {
+    const cardRefPath = cardData.ref_image_path;
+    try {
+      const { data: fileData } = await supabaseForPrompts.storage
+        .from('ref-images')
+        .download(cardRefPath);
+      if (fileData) {
+        const buffer = Buffer.from(await fileData.arrayBuffer());
+        const base64 = buffer.toString('base64');
+        const mime = cardRefPath.endsWith('.jpg') || cardRefPath.endsWith('.jpeg')
+          ? 'image/jpeg' : 'image/png';
+        refImageParts.push({
+          inlineData: { mimeType: mime, data: base64 }
+        });
+      }
+    } catch {}
+  }
+
   const fullPrompt = baseStylePrompt
     ? `${baseStylePrompt}\n\nNow generate an image for this card:\n\n${prompt}`
     : prompt;
 
-  // ── 1. Call Gemini API (always — this is the core) ──────
+  // ── 1. Resolve card in DB (before Gemini, so we can use card's ref image) ──
+  const supabase = createAdminClient();
+  let card: Record<string, any> | undefined;
+
+  if (cardId?.startsWith('local-') && cardData) {
+    // Local card — insert into DB so we can save art
+    const {
+      id: _localId,
+      created_at: _ca,
+      updated_at: _ua,
+      generated_at: _ga,
+      approved_at: _aa,
+      finalized_at: _fa,
+      ...insertData
+    } = cardData;
+
+    const { data: created, error: createError } = await supabase
+      .from('cards')
+      .upsert(
+        { ...insertData, gen_status: 'generating' },
+        { onConflict: 'card_number' }
+      )
+      .select()
+      .single();
+
+    if (createError || !created) {
+      return NextResponse.json(
+        { error: `Failed to create card: ${createError?.message ?? 'unknown'}` },
+        { status: 500 }
+      );
+    }
+    card = created;
+  } else if (cardId) {
+    const { data: found, error: cardError } = await supabase
+      .from('cards')
+      .select('*')
+      .eq('id', cardId)
+      .single();
+
+    if (cardError || !found) {
+      return NextResponse.json(
+        { error: `Card not found: ${cardError?.message ?? 'unknown'}` },
+        { status: 404 }
+      );
+    }
+    card = found;
+  } else if (!testOnly) {
+    return NextResponse.json(
+      { error: 'cardId or cardData is required' },
+      { status: 400 }
+    );
+  }
+
+  // Also check card from DB for ref_image_path (if not already in cardData)
+  if (!cardData?.ref_image_path && card?.ref_image_path) {
+    try {
+      const { data: fileData } = await supabaseForPrompts.storage
+        .from('ref-images')
+        .download(card.ref_image_path);
+      if (fileData) {
+        const buf = Buffer.from(await fileData.arrayBuffer());
+        const b64 = buf.toString('base64');
+        const m = card.ref_image_path.endsWith('.jpg') || card.ref_image_path.endsWith('.jpeg')
+          ? 'image/jpeg' : 'image/png';
+        refImageParts.push({
+          inlineData: { mimeType: m, data: b64 }
+        });
+      }
+    } catch {}
+  }
+
+  // ── 2. Call Gemini API (always — this is the core) ──────
   let imageBase64: string;
   let mimeType: string;
 
@@ -57,9 +186,19 @@ export async function POST(request: NextRequest) {
     let lastError: any;
     for (let attempt = 0; attempt < 3; attempt++) {
       try {
+        const contentParts: any[] = [];
+        // Add reference images first
+        if (refImageParts.length > 0) {
+          contentParts.push({ text: 'Here are reference images for the art style:' });
+          contentParts.push(...refImageParts);
+          contentParts.push({ text: `\n\nNow generate a NEW image in this style:\n\n${fullPrompt}` });
+        } else {
+          contentParts.push({ text: fullPrompt });
+        }
+
         response = await ai.models.generateContent({
           model: 'gemini-3.1-flash-image-preview',
-          contents: fullPrompt,
+          contents: [{ role: 'user', parts: contentParts }],
           config: {
             responseModalities: ['IMAGE'],
             imageConfig: { aspectRatio: '4:3' },
@@ -137,53 +276,8 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  // ── 2. Resolve card in DB ───────────────────────────────
-  const supabase = createAdminClient();
-  let card: Record<string, any>;
-
-  if (cardId?.startsWith('local-') && cardData) {
-    // Local card — insert into DB so we can save art
-    const {
-      id: _localId,
-      created_at: _ca,
-      updated_at: _ua,
-      generated_at: _ga,
-      approved_at: _aa,
-      finalized_at: _fa,
-      ...insertData
-    } = cardData;
-
-    const { data: created, error: createError } = await supabase
-      .from('cards')
-      .upsert(
-        { ...insertData, gen_status: 'generating' },
-        { onConflict: 'card_number' }
-      )
-      .select()
-      .single();
-
-    if (createError || !created) {
-      return NextResponse.json(
-        { error: `Failed to create card: ${createError?.message ?? 'unknown'}` },
-        { status: 500 }
-      );
-    }
-    card = created;
-  } else if (cardId) {
-    const { data: found, error: cardError } = await supabase
-      .from('cards')
-      .select('*')
-      .eq('id', cardId)
-      .single();
-
-    if (cardError || !found) {
-      return NextResponse.json(
-        { error: `Card not found: ${cardError?.message ?? 'unknown'}` },
-        { status: 404 }
-      );
-    }
-    card = found;
-  } else {
+  // ── Ensure card was resolved (needed for storage/DB update) ──
+  if (!card) {
     return NextResponse.json(
       { error: 'cardId or cardData is required' },
       { status: 400 }

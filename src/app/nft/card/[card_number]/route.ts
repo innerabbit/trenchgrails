@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://trenchgrails.vercel.app';
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://trenchgrails.com';
 const SCENE_URL = 'https://prod.spline.design/fNEyIuTyKEBBMlkQ/scene.splinecode?v=3';
 const SPLINE_RUNTIME_CDN = 'https://unpkg.com/@splinetool/runtime@1.12.68/build/runtime.js';
 

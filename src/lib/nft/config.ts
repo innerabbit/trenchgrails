@@ -20,7 +20,7 @@ export const MINT_COOLDOWN_MINUTES = Number(process.env.MINT_COOLDOWN_MINUTES ||
 export const HOLDING_PERIOD_MINUTES = Number(process.env.HOLDING_PERIOD_MINUTES || 10);
 
 /** Base URL for metadata endpoint */
-export const METADATA_BASE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://trenchgrails.vercel.app';
+export const METADATA_BASE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://trenchgrails.com';
 
 /** Cards per booster pack */
 export const CARDS_PER_PACK = 3;

@@ -148,7 +148,7 @@ export function FaqContent() {
           color: '#999',
           fontSize: 10,
         }}>
-          trenchgrails.vercel.app — Built on Solana
+          trenchgrails.com — Built on Solana
         </div>
       </div>
     </div>

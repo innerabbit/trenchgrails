@@ -1,40 +1,65 @@
 /**
- * Update the mainnet collection metadata URI
- * Run: npx tsx src/lib/nft/update-collection.ts
+ * Update the mainnet collection metadata (name, symbol, URI)
+ * Uses Token Metadata (Bubblegum collection), NOT mpl-core
+ * Run: MINT_AUTHORITY_SECRET_KEY=... npx tsx src/lib/nft/update-collection.ts
  */
 
 import { createUmi } from '@metaplex-foundation/umi-bundle-defaults';
-import { keypairIdentity, publicKey } from '@metaplex-foundation/umi';
-import { updateCollection } from '@metaplex-foundation/mpl-core';
+import {
+  mplTokenMetadata,
+  updateV1,
+  fetchMetadataFromSeeds,
+} from '@metaplex-foundation/mpl-token-metadata';
+import {
+  createSignerFromKeypair,
+  signerIdentity,
+  publicKey,
+} from '@metaplex-foundation/umi';
 import bs58 from 'bs58';
 
-const COLLECTION_ADDRESS = '6fmDmSKhyx7AJFZk1z3fpV2p4NRMiaiAMY9Z2fC5Vk6X';
-const NEW_URI = 'https://trenchgrails.vercel.app/api/nft/collection-metadata';
+const COLLECTION_MINT = 'EizZPeiRGTMbka7xhhhAJGbDDTDByCEY7bawuKhSMEcK';
+const NEW_NAME = 'Trench Grails';
+const NEW_SYMBOL = 'TGRL';
+const NEW_URI = 'https://trenchgrails.com/api/nft/collection-metadata';
 const RPC_URL = 'https://api.mainnet-beta.solana.com';
 
 async function main() {
-  // Load mint authority from env
   const secretKey = process.env.MINT_AUTHORITY_SECRET_KEY;
   if (!secretKey) throw new Error('MINT_AUTHORITY_SECRET_KEY not set');
 
-  const umi = createUmi(RPC_URL);
+  const umi = createUmi(RPC_URL, 'confirmed').use(mplTokenMetadata());
 
-  // Create keypair from secret
-  const secretBytes = bs58.decode(secretKey);
-  const keypair = umi.eddsa.createKeypairFromSecretKey(secretBytes);
-  umi.use(keypairIdentity(keypair));
+  const kp = umi.eddsa.createKeypairFromSecretKey(bs58.decode(secretKey));
+  const signer = createSignerFromKeypair(umi, kp);
+  umi.use(signerIdentity(signer));
 
-  console.log('Authority:', keypair.publicKey);
-  console.log('Collection:', COLLECTION_ADDRESS);
+  console.log('Authority:', signer.publicKey.toString());
+  console.log('Collection Mint:', COLLECTION_MINT);
+
+  // Fetch current metadata
+  const metadata = await fetchMetadataFromSeeds(umi, {
+    mint: publicKey(COLLECTION_MINT),
+  });
+  console.log('\nCurrent name:', metadata.name);
+  console.log('Current symbol:', metadata.symbol);
+  console.log('Current URI:', metadata.uri);
+
+  console.log('\n--- Updating to ---');
+  console.log('New name:', NEW_NAME);
+  console.log('New symbol:', NEW_SYMBOL);
   console.log('New URI:', NEW_URI);
 
-  const tx = await updateCollection(umi, {
-    collection: publicKey(COLLECTION_ADDRESS),
-    name: 'Trench Grails',
-    uri: NEW_URI,
+  const tx = await updateV1(umi, {
+    mint: publicKey(COLLECTION_MINT),
+    data: {
+      ...metadata,
+      name: NEW_NAME,
+      symbol: NEW_SYMBOL,
+      uri: NEW_URI,
+    },
   }).sendAndConfirm(umi);
 
-  console.log('✅ Collection updated!');
+  console.log('\n✅ Collection metadata updated!');
   console.log('Tx:', bs58.encode(tx.signature));
 }
 

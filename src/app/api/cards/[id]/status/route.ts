@@ -8,7 +8,7 @@ export async function PATCH(
 ) {
   const { id } = await params;
   const body = await request.json();
-  const { gen_status, art_description, name } = body;
+  const { gen_status, art_description, name, ref_image_path } = body;
 
   const supabase = createAdminClient();
   const update: Record<string, unknown> = {};
@@ -31,6 +31,7 @@ export async function PATCH(
   // Direct field updates
   if (typeof art_description === 'string') update.art_description = art_description;
   if (typeof name === 'string') update.name = name;
+  if (ref_image_path !== undefined) update.ref_image_path = ref_image_path;
 
   if (Object.keys(update).length === 0) {
     return NextResponse.json({ error: 'No fields to update' }, { status: 400 });

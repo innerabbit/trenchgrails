@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://trenchgrails.vercel.app';
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://trenchgrails.com';
 
 /**
  * GET /api/nft/metadata/[card_number]
@@ -59,7 +59,7 @@ export async function GET(
     description: card.art_description || card.flavor_text || `A ${card.rarity_tier || ''} ${card.card_type || ''} card from Trench Grails`.trim(),
     image: imageUrl,
     animation_url: animationUrl,
-    external_url: 'https://trenchgrails.vercel.app',
+    external_url: 'https://trenchgrails.com',
     attributes,
     properties: {
       files: [

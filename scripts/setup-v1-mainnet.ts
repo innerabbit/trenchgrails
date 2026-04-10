@@ -63,7 +63,7 @@ async function main() {
     mint: col,
     name: 'Trench Grails',
     symbol: 'TGRL',
-    uri: 'https://trenchgrails.vercel.app/api/nft/collection-metadata',
+    uri: 'https://trenchgrails.com/api/nft/collection-metadata',
     sellerFeeBasisPoints: percentAmount(5), // 5% royalties
     isCollection: true,
     creators: [
